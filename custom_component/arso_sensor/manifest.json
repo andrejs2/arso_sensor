@@ -1,0 +1,10 @@
+{
+    "domain": "arso_sensor",
+    "name": "ARSO Weather Sensor",
+    "version": "1.0",
+    "documentation": "https://example.com",
+    "dependencies": [],
+    "codeowners": ["@andrejs2"],
+    "requirements": ["requests"]
+  }
+  
