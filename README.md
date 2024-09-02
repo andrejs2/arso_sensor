@@ -20,5 +20,5 @@ sensor:
       - "Maribor"
     scan_interval: 01:00:00  # Update interval (optional) ARSO updates data hourly
 
-The locations (names of meteorological stations), lat and long data is in ```location_coordinates.csv``` file.
+The locations (names of meteorological stations), lat and long data is in ```location_coordinates.csv``` file. For configuration file use name under "Title", e.g. "Bilje pri Novi Gorici"
 
