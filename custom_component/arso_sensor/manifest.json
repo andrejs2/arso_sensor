@@ -1,10 +1,11 @@
 {
-    "domain": "arso_sensor",
-    "name": "ARSO Weather Sensor",
+    "domain": "arso_weather",
+    "name": "ARSO Weather",
     "version": "1.0",
-    "documentation": "https://example.com",
+    "documentation": "https://github.com/yourusername/arso_weather",
+    "requirements": [],
     "dependencies": [],
-    "codeowners": ["@andrejs2"],
-    "requirements": ["requests"]
+    "codeowners": ["@yourusername"],
+    "config_flow": true
   }
   
