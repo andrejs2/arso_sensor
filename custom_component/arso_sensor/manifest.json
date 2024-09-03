@@ -1,7 +1,7 @@
 {
     "domain": "arso_weather",
     "name": "ARSO Weather",
-    "version": "2.0",
+    "version": "1.1",
     "documentation": "https://github.com/yourusername/arso_weather",
     "requirements": [],
     "dependencies": [],
