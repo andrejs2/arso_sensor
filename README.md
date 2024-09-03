@@ -31,7 +31,7 @@ All data in this custom integration is provided by Agencija Republike Slovenije 
 
 ### Configuration Options
 
-- **Location**: Choose a location in Slovenia or a neighboring country to display weather data from.
+- **Location**: Choose a location in Slovenia or a neighboring country including BIH to display weather data from.
 
 The locations (names of meteorological stations), lat and long data is in ```location_coordinates.csv``` file. For configuration file use name under "Title", e.g. "Bilje pri Novi Gorici"
 
