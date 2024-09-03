@@ -1,5 +1,6 @@
 import aiohttp
 import logging
+from datetime import datetime
 from homeassistant.components.weather import WeatherEntity
 from homeassistant.const import UnitOfTemperature, UnitOfPressure, UnitOfSpeed
 from .const import API_URL, DOMAIN
@@ -17,6 +18,8 @@ WIND_DIRECTION_MAP = {
     "JV": "SE",
     "N": "N"
 }
+
+ATTRIBUTION = "Data provided by Agencija Republike Slovenije za okolje"
 
 async def async_setup_entry(hass, config_entry, async_add_entities):
     """Set up ARSO Weather entity based on a config entry."""
@@ -42,6 +45,8 @@ class ArsoWeather(WeatherEntity):
         self._attr_native_wind_speed = None
         self._attr_wind_bearing = None
         self._attr_native_precipitation = None
+        self._attr_attribution = ATTRIBUTION  # Dodamo atribut za attribution
+        self._attr_last_updated = None  # Dodamo atribut za časovni žig
 
     async def async_update(self):
         """Fetch new state data for the sensor."""
@@ -70,6 +75,9 @@ class ArsoWeather(WeatherEntity):
                             self._attr_native_precipitation = self._safe_cast(latest_observation.get('tp_acc'), float)
                             self._attr_condition = latest_observation.get('clouds_shortText', "Unknown")
 
+                            # Nastavimo časovni žig
+                            self._attr_last_updated = datetime.now().isoformat()
+
                             _LOGGER.debug(f"Temperature: {self._attr_native_temperature}")
                             _LOGGER.debug(f"Pressure: {self._attr_native_pressure}, Humidity: {self._attr_humidity}, Wind Speed: {self._attr_native_wind_speed}, Wind Bearing: {self._attr_wind_bearing}, Precipitation: {self._attr_native_precipitation}, Condition: {self._attr_condition}")
                         else:
@@ -88,6 +96,7 @@ class ArsoWeather(WeatherEntity):
         self._attr_native_wind_speed = None
         self._attr_wind_bearing = None
         self._attr_native_precipitation = None
+        self._attr_last_updated = None
 
     def _safe_cast(self, val, to_type, default=None):
         """Safely cast a value to a specified type."""
@@ -140,3 +149,11 @@ class ArsoWeather(WeatherEntity):
     @property
     def condition(self):
         return self._attr_condition
+
+    @property
+    def extra_state_attributes(self):
+        """Return the state attributes."""
+        return {
+            "attribution": self._attr_attribution,
+            "last_updated": self._attr_last_updated,
+        }

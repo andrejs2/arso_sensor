@@ -1,24 +1,35 @@
 
-# ARSO Weather Sensor for Home Assistant
+## ARSO Weather Integration
 
-This custom component integrates ARSO weather data into Home Assistant, allowing users to track weather forecasts for various locations in Slovenia and nearby regions. The component supports multiple locations and provides detailed weather attributes such as temperature, humidity, pressure, wind speed, direction, cloud coverage, and precipitation.
+This is a custom integration for Home Assistant to retrieve current weather data from the Slovenian Environment Agency (ARSO). The integration displays weather attributes such as temperature, humidity, pressure, wind speed, wind bearing, and weather condition.
+
+## Features
+
+- **Current Weather Data**: Displays real-time weather information for selected locations in Slovenia.
+- **Wind Data**: Includes wind speed and direction.
+- **Humidity and Pressure**: Provides data on current humidity and atmospheric pressure.
+- **Precipitation**: Shows the amount of precipitation.
+- **Attribution**: Displays the data source (ARSO).
+- **Last Updated**: Shows the timestamp of the last data refresh.
 
 ## Installation
 
-1. Download the `arso_sensor` directory and place it in the `custom_components` directory of your Home Assistant configuration.
-2. Restart Home Assistant to recognize the new sensor.
+### Manual Installation
 
-## Configuration
+1. Download the repository.
+2. Copy the `arso_weather` directory to your `custom_components` directory in your Home Assistant configuration directory.
+3. Restart Home Assistant.
 
-To configure the sensor, simply add Integration through UI ~~add the following to your `configuration.yaml` file:~~
+### Configuration
 
-~~```yaml~~
-~~sensor:~~
- ~~- platform: arso_sensor~~
-   ~~locations:~~
-    ~~- "Ljubljana"~~
-    ~~- "Maribor"~~
-    ~~scan_interval: 01:00:00  # Update interval (optional) ARSO updates data hourly~~ 
+1. Go to the `Configuration` panel in your Home Assistant UI.
+2. Click on `Integrations`.
+3. Click the `+ Add Integration` button.
+4. Search for `ARSO Weather` and click on it to set up the integration.
+
+### Configuration Options
+
+- **Location**: Choose a location in Slovenia to display weather data from.
 
 The locations (names of meteorological stations), lat and long data is in ```location_coordinates.csv``` file. For configuration file use name under "Title", e.g. "Bilje pri Novi Gorici"
 
