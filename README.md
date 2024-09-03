@@ -16,8 +16,8 @@ To configure the sensor, simply add Integration through UI ~~add the following t
 ~~sensor:~~
  ~~- platform: arso_sensor~~
    ~~locations:~~
-    ~~  - "Ljubljana"~~
-    ~~  - "Maribor"~~
+    ~~- "Ljubljana"~~
+    ~~- "Maribor"~~
     ~~scan_interval: 01:00:00  # Update interval (optional) ARSO updates data hourly~~ 
 
 The locations (names of meteorological stations), lat and long data is in ```location_coordinates.csv``` file. For configuration file use name under "Title", e.g. "Bilje pri Novi Gorici"
