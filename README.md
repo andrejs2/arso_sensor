@@ -11,7 +11,7 @@ This custom component integrates ARSO weather data into Home Assistant, allowing
 ## Configuration
 
 To configure the sensor, simply add Integration through UI ~~add the following to your `configuration.yaml` file:~~
-~~
+
 ~~```yaml~~
 ~~sensor:~~
  ~~- platform: arso_sensor~~
