@@ -3,6 +3,8 @@
 
 This is a custom integration for Home Assistant to retrieve current weather data from the Slovenian Environment Agency (ARSO). The integration displays weather attributes such as temperature, humidity, pressure, wind speed, wind bearing, and weather condition.
 
+All data in this custom integration is provided by Agencija Republike Slovenije za okolje (Slovenian Environment Agency).
+
 ## Features
 
 - **Current Weather Data**: Displays real-time weather information for selected locations in Slovenia.
