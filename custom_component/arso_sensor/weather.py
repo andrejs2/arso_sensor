@@ -35,7 +35,7 @@ class ArsoWeather(WeatherEntity):
         """Initialize the ARSO Weather entity."""
         self._location = location
         self._attr_name = f"ARSO Weather {location}"
-        self._attr_native_temperature = None  # Pravilno opredeljen atribut za temperaturo
+        self._attr_native_temperature = None
         self._attr_condition = None
         self._attr_native_pressure = None
         self._attr_humidity = None
@@ -50,36 +50,33 @@ class ArsoWeather(WeatherEntity):
                 if response.status == 200:
                     data = await response.json()
                     _LOGGER.debug(f"Full API response: {data}")
-                    latest_data = None
                     
-                    if "forecast24h" in data:
-                        latest_day = data["forecast24h"]["features"][0]["properties"]["days"][0]
-                        latest_data = latest_day["timeline"][-1]  # Zadnji časovni interval
+                    # Preverimo, ali obstajajo podatki za "observation"
+                    observation = data.get("observation")
+                    if observation and "features" in observation:
+                        # Preverimo, kakšna je struktura "properties" za prvega "feature"
+                        properties = observation["features"][0]["properties"]
+                        if "days" in properties:
+                            latest_observation = properties['days'][0]['timeline'][-1]
+                            _LOGGER.debug(f"Latest Observation: {latest_observation}")
 
-                    if not latest_data and "forecast3h" in data:
-                        latest_day = data["forecast3h"]["features"][0]["properties"]["days"][0]
-                        latest_data = latest_day["timeline"][-1]  # Zadnji časovni interval
+                            # Poskusimo pridobiti posamezne vrednosti iz latest_observation
+                            self._attr_native_temperature = self._safe_cast(latest_observation.get('t'), float)
+                            self._attr_native_pressure = self._safe_cast(latest_observation.get('msl'), float)
+                            self._attr_humidity = self._safe_cast(latest_observation.get('rh'), float)
+                            self._attr_native_wind_speed = self._safe_cast(latest_observation.get('ff_val'), float)
+                            wind_bearing_slovene = latest_observation.get('dd_shortText')
+                            self._attr_wind_bearing = WIND_DIRECTION_MAP.get(wind_bearing_slovene, wind_bearing_slovene)
+                            self._attr_native_precipitation = self._safe_cast(latest_observation.get('tp_acc'), float)
+                            self._attr_condition = latest_observation.get('clouds_shortText', "Unknown")
 
-                    if latest_data:
-                        temperature = latest_data.get('t')
-                        if temperature is not None:
-                            try:
-                                self._attr_native_temperature = float(temperature)
-                            except ValueError:
-                                _LOGGER.error(f"Failed to convert temperature value {temperature} to float.")
-                                self._attr_native_temperature = None
+                            _LOGGER.debug(f"Temperature: {self._attr_native_temperature}")
+                            _LOGGER.debug(f"Pressure: {self._attr_native_pressure}, Humidity: {self._attr_humidity}, Wind Speed: {self._attr_native_wind_speed}, Wind Bearing: {self._attr_wind_bearing}, Precipitation: {self._attr_native_precipitation}, Condition: {self._attr_condition}")
                         else:
-                            self._attr_native_temperature = None
-
-                        self._attr_condition = latest_data.get('clouds_shortText')
-                        self._attr_native_pressure = self._safe_cast(latest_data.get('msl'), float)
-                        self._attr_humidity = self._safe_cast(latest_data.get('rh'), float)
-                        self._attr_native_wind_speed = self._safe_cast(latest_data.get('ff_val'), float)
-                        wind_bearing_slovene = latest_data.get('dd_shortText')
-                        self._attr_wind_bearing = WIND_DIRECTION_MAP.get(wind_bearing_slovene, wind_bearing_slovene)
-                        self._attr_native_precipitation = self._safe_cast(latest_data.get('tp_acc'), float)
+                            _LOGGER.debug("No valid 'days' data found in observation.")
+                            self._reset_attributes()
                     else:
-                        _LOGGER.debug("No valid forecast data found.")
+                        _LOGGER.debug("No valid observation data found.")
                         self._reset_attributes()
 
     def _reset_attributes(self):
