@@ -3,6 +3,7 @@
     "name": "ARSO Weather",
     "version": "1.1",
     "documentation": "https://github.com/andrejs2/arso_sensor",
+    "issue_tracker": "https://github.com/andrejs2/arso_sensor/issues"
     "requirements": [],
     "dependencies": [],
     "codeowners": ["@andrejs2"],
